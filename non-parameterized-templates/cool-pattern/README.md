@@ -5,7 +5,7 @@ This directory includes a parameterized template. Developers can provide a custo
 ### Template Authors 🧑‍🏫
 Template authors define the inputs they want devs to provide in the `schema.yaml` directory - I've copied it down below. 
 
-```
+```yaml
 schema:
   format:
     openapi: "3.0.0"
@@ -67,7 +67,7 @@ schema:
 
 You can see in the `instance_infrastructure/cloudformation.yaml` file that [we can use JINJA](https://docs.aws.amazon.com/proton/latest/userguide/ag-infrastructure-tmp-files.html#cloudformation) to inject this variables into the template. 
 
-```
+```yaml
   AppRunnerService:
     Type: AWS::AppRunner::Service
     Properties:
@@ -94,7 +94,7 @@ If a developer wanted to deploy their code using this template to a particular e
 
 The important thing is, these inputs are all associated with _one_ template. The template is parameterized that when a customer deploys to prod, the prod configuration is read from this spec, and the template is rendered using that configuration. 
 
-```
+```yaml
 proton: ServiceSpec
 pipeline:
   service_dir: .
