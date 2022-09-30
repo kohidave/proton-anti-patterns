@@ -1,4 +1,4 @@
-# Non-Parameterized Template
+# Non-Parameterized Template 👎
 
 This directory contains three templates. One associated with dev, one associated with staging and one with prod. Each of these templates is almost exactly the same except a few parameters. Rather than duplicate this template three times, we should parameterize it (like in the `cool-pattern` directory). 
 
