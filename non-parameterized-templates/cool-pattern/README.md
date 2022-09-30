@@ -65,7 +65,7 @@ schema:
 
 ```
 
-You can see in the `instance_infrastructure/cloudformation.yaml` file that [we can use JINJA](https://docs.aws.amazon.com/proton/latest/userguide/ag-infrastructure-tmp-files.html#cloudformation) to inject this variables into the template. 
+You can see in the `instance_infrastructure/cloudformation.yaml` file that [we can use JINJA](https://docs.aws.amazon.com/proton/latest/userguide/ag-infrastructure-tmp-files.html#cloudformation) to inject these variables into the template. 
 
 ```yaml
   AppRunnerService:
