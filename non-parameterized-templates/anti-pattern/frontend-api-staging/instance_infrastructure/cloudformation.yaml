@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This template is not parameterized. We should parameterize it, instead of duplicating it across three templates.
+
+Mappings:
+  TaskSize:
+    medium:
+      cpu: 1 vCPU
+      memory: 2048
+    large:
+      cpu: 2 vCPU
+      memory: 4096
+
+Resources:
+  ServiceAccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: build.apprunner.amazonaws.com
+        Version: "2012-10-17"
+      Policies:
+        - PolicyName: 'Publish2SNS'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action: 'sns:Publish'
+                Resource: '{{environment.outputs.SNSTopicArn}}'
+  ServiceAccessRoleDefaultPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: 
+              - ecr:GetAuthorizationToken
+              - ecr:BatchCheckLayerAvailability
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: ServiceAccessRoleDefaultPolicy
+      Roles:
+        - Ref: ServiceAccessRole
+  AppRunnerService:
+    Type: AWS::AppRunner::Service
+    Properties:
+      SourceConfiguration:
+        AuthenticationConfiguration:
+          AccessRoleArn:
+            Fn::GetAtt:
+              - ServiceAccessRole
+              - Arn
+        ImageRepository:
+          ImageConfiguration:
+            Port: '8080'
+          ImageIdentifier: '1234567890.dkr.ecr.us-west-2.amazonaws.com/my-cool-app:vcda2123'
+          ImageRepositoryType: ECR
+      InstanceConfiguration:
+        Cpu: !FindInMap [TaskSize, large, cpu]
+        Memory: !FindInMap [TaskSize, large, memory]
+Outputs:
+  AppRunnerServiceARN:
+    Value:
+      Fn::GetAtt:
+        - AppRunnerService
+        - ServiceArn
+  AppRunnerServiceURL:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Fn::GetAtt:
+              - AppRunnerService
+              - ServiceUrl

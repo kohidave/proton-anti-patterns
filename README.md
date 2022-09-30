@@ -1,1 +1,0 @@
-# proton-anti-patterns
