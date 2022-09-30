@@ -7,7 +7,7 @@ In this example, each template defines an AppRunner example that looks like belo
 
 Having a bunch of templates like this makes service management more difficult, as well as template management. 
 
-```
+```yaml
   AppRunnerService:
     Type: AWS::AppRunner::Service
     Properties:
