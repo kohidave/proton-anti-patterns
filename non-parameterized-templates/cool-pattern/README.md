@@ -1,4 +1,4 @@
-# Paramaterized Template
+# Paramaterized Template 👍
 
 This directory includes a parameterized template. Developers can provide a custom tasksize, port and container image per environment they want to deploy to. 
 
